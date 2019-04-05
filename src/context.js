@@ -1,12 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { storeProducts, detailProduct } from './data';
 
 const ProductContext = React.createContext();
 
-// Provider
+// Provider Component
 function ProductProvider(props) {
-  const [products, setProducts] = useState(storeProducts);
+  const [products, setProducts] = useState([]);
   const [productDetails, setProductDetails] = useState(detailProduct);
+
+  // Initializing a copy of data to state
+  useEffect(() => {
+    let products = [];
+    storeProducts.forEach(item => products.push({ ...item }));
+    setProducts(products);
+  });
 
   const handleDetail = () => {
     console.log('Hello from detail');
@@ -15,7 +22,7 @@ function ProductProvider(props) {
     console.log('Hello from addToCart');
   };
 
-  // Returning 'state'
+  // Providing 'state'
   return (
     <ProductContext.Provider
       value={{
