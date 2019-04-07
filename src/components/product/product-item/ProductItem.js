@@ -6,13 +6,11 @@ import PropTypes from 'prop-types';
 
 export default function ProductItem({ product }) {
   const { id, title, img, price, inCart } = product;
+  const { handleDetails, addToCart, openModal } = useContext(ProductContext);
   return (
     <Product className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">
-        <div
-          className="img-container p-5"
-          onClick={() => console.log('image clicked')}
-        >
+        <div className="img-container p-5" onClick={() => handleDetails(id)}>
           <Link to="/details">
             <img src={img} alt="product" className="card-img-top" />
           </Link>
@@ -20,7 +18,8 @@ export default function ProductItem({ product }) {
             className="cart-btn"
             disabled={inCart}
             onClick={() => {
-              console.log('Product added to the cart');
+              addToCart(id);
+              openModal(id);
             }}
           >
             {inCart ? (

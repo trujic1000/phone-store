@@ -4,9 +4,9 @@ import Title from '../../common/Title';
 import { ProductContext } from '../../../context';
 
 export default function ProductList() {
-  // Getting state from context
-  const state = useContext(ProductContext);
-  let products = state.products.map(product => (
+  // Getting product from context
+  const { products } = useContext(ProductContext);
+  let productItems = products.map(product => (
     <ProductItem key={product.id} product={product} />
   ));
   return (
@@ -14,7 +14,7 @@ export default function ProductList() {
       <div className="py-5">
         <div className="container">
           <Title name="Our" title="Products" />
-          <div className="row">{products}</div>
+          <div className="row">{productItems}</div>
         </div>
       </div>
     </React.Fragment>
