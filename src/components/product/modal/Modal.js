@@ -16,24 +16,17 @@ export default function Modal() {
         <div className="row">
           <div
             id="modal"
-            className="col-8 mx-auto col-md 6 col-lg-4 text-center text-capitalized p-5"
+            className="col-8 mx-auto col-md-6 col-lg-4 text-center text-capitalized p-5"
           >
             <h5>Item added to cart</h5>
-            <img src={img} alt="Product image" className="img-fluid"/>
+            <img src={img} alt="Product" className="img-fluid" />
             <h5>{title}</h5>
             <h5 className="text-muted">Price: ${price}</h5>
             <Link to="/">
-              <Button
-                onClick={() => closeModal()}
-              >
-                Back
-              </Button>
+              <Button onClick={() => closeModal()}>Back</Button>
             </Link>
             <Link to="/cart">
-              <Button
-                cart
-                onClick={() => closeModal()}
-              >
+              <Button cart onClick={() => closeModal()}>
                 Go to cart
               </Button>
             </Link>

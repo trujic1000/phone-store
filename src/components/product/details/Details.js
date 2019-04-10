@@ -30,7 +30,7 @@ export default function Details() {
       <div className="row">
         {/* Product Image */}
         <div className="col-10 mx-auto col-md-6 my-3">
-          <img src={img} alt="Product Image" className="img-fluid" />
+          <img src={img} alt="Product" className="img-fluid" />
         </div>
         {/* Product Details */}
         <div className="col-10 mx-auto col-md-6 my-3 text-capitalize">
