@@ -45,7 +45,7 @@ export default function CartItem({ product, state }) {
       </div>
       <div className="col-10 mx-auto col-lg-2">
         <strong className="d-lg-none">Item total: </strong>
-        <strong>${price}</strong>
+        <strong>${total}</strong>
       </div>
     </div>
   );

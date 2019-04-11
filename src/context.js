@@ -26,10 +26,13 @@ function ProductProvider(props) {
 
   // Initializing a copy of products data to state
   useEffect(() => {
-    let products = [];
-    storeProducts.forEach(item => products.push({ ...item }));
-    setProducts(products);
-  }, []);
+    // Initializing a new copy of products when app loads and when we clear cart
+    if (!cart.length) {
+      let products = [];
+      storeProducts.forEach(item => products.push({ ...item }));
+      setProducts(products);
+    }
+  });
 
   // Get item by id
   const getItem = id => products.find(item => item.id === id);
@@ -65,19 +68,48 @@ function ProductProvider(props) {
   // CART METHODS
   // Incrementing/Decrementing values in the cart
   const inc = id => {
-    console.log('This is increment method');
+    let tempCart = [...cart];
+    const selectedProduct = tempCart.find(item => item.id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.count += 1;
+    product.total = product.count * product.price;
+    setCart(tempCart);
+    addTotals();
   };
 
   const dec = id => {
-    console.log('This is decrement method');
+    let tempCart = [...cart];
+    const selectedProduct = tempCart.find(item => item.id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.count -= 1;
+    if (product.count === 0) {
+      removeItem(id);
+    } else {
+      product.total = product.count * product.price;
+      setCart(tempCart);
+      addTotals();
+    }
   };
 
   const removeItem = id => {
-    console.log('Item removed');
+    let tempProducts = [...products];
+    let tempCart = [...cart];
+    tempCart = tempCart.filter(item => item.id !== id);
+    const index = tempProducts.indexOf(getItem(id));
+    let removedProduct = tempProducts[index];
+    removedProduct.inCart = false;
+    removedProduct.count = 0;
+    removedProduct.total = 0;
+    setCart(tempCart);
+    setProducts(tempProducts);
+    addTotals();
   };
 
   const clearCart = () => {
-    console.log('Cart cleared');
+    setCart([]);
+    addTotals();
   };
 
   const addTotals = () => {
