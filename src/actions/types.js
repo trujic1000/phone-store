@@ -1,0 +1,9 @@
+export const SET_PRODUCT_DETAILS = 'SET_PRODUCT_DETAILS';
+export const ADD_ITEM_TO_CART = 'ADD_ITEM_TO_CART';
+export const OPEN_MODAL = 'OPEN_MODAL';
+export const CLOSE_MODAL = 'CLOSE_MODAL';
+export const INCREMENT_ITEM = 'INCREMENT_ITEM';
+export const DECREMENT_ITEM = 'DECREMENT_ITEM';
+export const REMOVE_ITEM_FROM_CART = 'REMOVE_ITEM_FROM_CART';
+export const CLEAR_CART = 'CLEAR_CART';
+export const ADD_TOTALS = 'ADD_TOTALS';

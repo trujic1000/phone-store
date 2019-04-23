@@ -1,22 +1,16 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
-import { ProductContext } from '../../../context';
+import { StateContext } from '../../../context/StateContext';
 import { Button } from '../../common/Button';
 
 export default function Details() {
-  const { productDetails, addToCart, openModal } = useContext(ProductContext);
-  const {
-    id,
-    title,
-    img,
-    price,
-    company,
-    info,
-    inCart,
-    count,
-    total
-  } = productDetails;
+  const { product, cartActions, modalActions } = useContext(StateContext);
+  const { productDetails } = product;
+  const { addItemToCart } = cartActions;
+  const { openModal } = modalActions;
+
+  const { id, title, img, price, company, info, inCart } = productDetails;
   return (
     <div className="container py-5">
       {/* Product Title */}
@@ -57,7 +51,7 @@ export default function Details() {
               cart
               disabled={inCart}
               onClick={() => {
-                addToCart(id);
+                addItemToCart(productDetails);
                 openModal(id);
               }}
             >

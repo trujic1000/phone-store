@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { StateContext } from '../../context/StateContext';
 
-export default function CartItem({ product, state }) {
-  const { cart, inc, dec, removeItem } = state;
-  const { id, title, img, price, total, count } = product;
+export default function CartItem({ item }) {
+  const { cartActions } = useContext(StateContext);
+  const { inc, dec, removeItemFromCart } = cartActions;
+  const { id, title, img, price, total, count } = item;
   return (
     <div className="row my-2 text-capitalize text-center">
       <div className="col-10 mx-auto col-lg-2">
@@ -37,7 +39,7 @@ export default function CartItem({ product, state }) {
         <div
           className="cart-icon"
           onClick={() => {
-            removeItem(id);
+            removeItemFromCart(id);
           }}
         >
           <i className="fas fa-trash" />

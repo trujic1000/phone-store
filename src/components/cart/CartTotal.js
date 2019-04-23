@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
-export default function CartTotal({ state }) {
-  const { cartSubtotal, cartTax, cartTotal, clearCart, addTotals } = state;
+export default function CartTotal({ cartState, cartActions }) {
+  const { cartSubtotal, cartTax, cartTotal } = cartState;
+  const { addTotals, clearCart } = cartActions;
   // Updating Total value
   useEffect(() => {
     addTotals();

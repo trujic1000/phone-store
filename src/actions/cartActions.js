@@ -1,0 +1,111 @@
+import {
+  ADD_ITEM_TO_CART,
+  INCREMENT_ITEM,
+  DECREMENT_ITEM,
+  ADD_TOTALS,
+  REMOVE_ITEM_FROM_CART,
+  CLEAR_CART
+} from './types';
+
+export const useCartActions = ({ product, cart }, dispatch) => {
+  // Get item by id
+  const getItem = id => product.products.find(item => item.id === id);
+
+  const addItemToCart = id => {
+    let tempProducts = [...product.products];
+    const index = tempProducts.indexOf(getItem(id));
+    const tempProduct = tempProducts[index];
+    tempProduct.inCart = true;
+    tempProduct.count = 1;
+    const price = tempProduct.price;
+    tempProduct.total = price;
+    const tempCart = [...cart.cart, tempProduct];
+    dispatch({
+      type: ADD_ITEM_TO_CART,
+      payload: {
+        products: tempProducts,
+        cart: tempCart
+      }
+    });
+  };
+
+  const addTotals = () => {
+    let subtotal = 0;
+    cart.cart.map(item => (subtotal += item.total));
+    const tempTax = subtotal * 0.1;
+    const tax = parseFloat(tempTax.toFixed(2));
+    const total = subtotal + tax;
+    dispatch({
+      type: ADD_TOTALS,
+      payload: { subtotal, tax, total }
+    });
+  };
+
+  const removeItemFromCart = id => {
+    let tempProducts = [...product.products];
+    let tempCart = [...cart.cart];
+    tempCart = tempCart.filter(item => item.id !== id);
+    const index = tempProducts.indexOf(getItem(id));
+    let removedProduct = tempProducts[index];
+    removedProduct.inCart = false;
+    removedProduct.count = 0;
+    removedProduct.total = 0;
+    dispatch({
+      type: REMOVE_ITEM_FROM_CART,
+      payload: {
+        cart: tempCart,
+        products: tempProducts
+      }
+    });
+    addTotals();
+    // setCart(tempCart);
+    // setProducts(tempProducts);
+  };
+
+  const clearCart = () => {
+    dispatch({ type: CLEAR_CART });
+    addTotals();
+  };
+
+  // Incrementing/Decrementing values in the cart
+  const inc = id => {
+    let tempCart = [...cart.cart];
+    const selectedProduct = tempCart.find(item => item.id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.count += 1;
+    product.total = product.count * product.price;
+    dispatch({
+      type: INCREMENT_ITEM,
+      payload: tempCart
+    });
+    addTotals();
+  };
+
+  const dec = id => {
+    let tempCart = [...cart.cart];
+    const selectedProduct = tempCart.find(item => item.id === id);
+    const index = tempCart.indexOf(selectedProduct);
+    const product = tempCart[index];
+    product.count -= 1;
+    if (product.count === 0) {
+      removeItemFromCart(id);
+    } else {
+      product.total = product.count * product.price;
+      dispatch({
+        type: DECREMENT_ITEM,
+        payload: tempCart
+      });
+      // setCart(tempCart);
+      addTotals();
+    }
+  };
+  return {
+    addItemToCart,
+    removeItemFromCart,
+    inc,
+    dec,
+    addTotals,
+    clearCart
+  };
+};

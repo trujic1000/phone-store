@@ -1,16 +1,24 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { ProductContext } from '../../../context';
+import { StateContext } from '../../../context/StateContext';
 import PropTypes from 'prop-types';
 
 export default function ProductItem({ product }) {
   const { id, title, img, price, inCart } = product;
-  const { handleDetails, addToCart, openModal } = useContext(ProductContext);
+  const { productActions, cartActions, modalActions } = useContext(
+    StateContext
+  );
+  const { addItemToCart } = cartActions;
+  const { openModal } = modalActions;
+  const { setProductDetails } = productActions;
   return (
     <Product className="col-9 mx-auto col-md-6 col-lg-3 my-3">
       <div className="card">
-        <div className="img-container p-5" onClick={() => handleDetails(id)}>
+        <div
+          className="img-container p-5"
+          onClick={() => setProductDetails(product)}
+        >
           <Link to="/details">
             <img src={img} alt="product" className="card-img-top" />
           </Link>
@@ -18,7 +26,7 @@ export default function ProductItem({ product }) {
             className="cart-btn"
             disabled={inCart}
             onClick={() => {
-              addToCart(id);
+              addItemToCart(id);
               openModal(id);
             }}
           >

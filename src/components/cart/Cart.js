@@ -4,19 +4,19 @@ import CartColumns from './CartColumns';
 import EmptyCart from './EmptyCart';
 import CartList from './CartList';
 import CartTotal from './CartTotal';
-import { ProductContext } from '../../context';
+import { StateContext } from '../../context/StateContext';
 
 export default function Cart() {
-  const state = useContext(ProductContext);
-  const { cart } = state;
+  const { cartState, cartActions } = useContext(StateContext);
+  const { cart } = cartState;
   let content;
   content =
     cart.length > 0 ? (
       <React.Fragment>
         <Title name="your" title="cart" />
         <CartColumns />
-        <CartList state={state} />
-        <CartTotal state={state} />
+        <CartList cart={cart} />
+        <CartTotal cartState={cartState} cartActions={cartActions} />
       </React.Fragment>
     ) : (
       <EmptyCart />

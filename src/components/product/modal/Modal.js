@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { ProductContext } from '../../../context';
+import { StateContext } from '../../../context/StateContext';
 import { Button } from '../../common/Button';
 
 export default function Modal() {
-  const { modalOpen, modalProduct, closeModal } = useContext(ProductContext);
+  const { modal, modalActions } = useContext(StateContext);
+  const { modalOpen, modalProduct } = modal;
   const { img, title, price } = modalProduct;
+  const { closeModal } = modalActions;
   // If Modal is closed don't display anything
   if (!modalOpen) return null;
   return (
