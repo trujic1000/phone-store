@@ -5,8 +5,8 @@ import { StateContext } from '../../../context/StateContext';
 import { Button } from '../../common/Button';
 
 export default function Details() {
-  const { product, cartActions, modalActions } = useContext(StateContext);
-  const { productDetails } = product;
+  const { productState, cartActions, modalActions } = useContext(StateContext);
+  const { productDetails } = productState;
   const { addItemToCart } = cartActions;
   const { openModal } = modalActions;
 

@@ -6,8 +6,8 @@ import { StateContext } from '../../../context/StateContext';
 import { Button } from '../../common/Button';
 
 export default function Modal() {
-  const { modal, modalActions } = useContext(StateContext);
-  const { modalOpen, modalProduct } = modal;
+  const { modalState, modalActions } = useContext(StateContext);
+  const { modalOpen, modalProduct } = modalState;
   const { img, title, price } = modalProduct;
   const { closeModal } = modalActions;
   // If Modal is closed don't display anything

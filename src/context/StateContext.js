@@ -39,11 +39,11 @@ const StateProvider = ({ children }) => {
   return (
     <StateContext.Provider
       value={{
-        product,
+        productState: product,
         productActions,
         cartState: cart,
         cartActions,
-        modal,
+        modalState: modal,
         modalActions
       }}
     >
