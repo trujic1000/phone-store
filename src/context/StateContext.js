@@ -1,9 +1,7 @@
 import React, { createContext, useReducer } from 'react';
 import { storeProducts, detailProduct } from '../data';
 import { stateReducer } from '../reducers';
-import { useProductActions } from '../actions/productActions';
-import { useCartActions } from '../actions/cartActions';
-import { useModalActions } from '../actions/modalActions';
+import { useProductActions, useCartActions, useModalActions } from '../actions';
 
 let tempProducts = [];
 storeProducts.forEach(item => tempProducts.push({ ...item }));
@@ -36,6 +34,7 @@ const StateProvider = ({ children }) => {
   const cartActions = useCartActions({ product, cart }, dispatch);
   const modalActions = useModalActions(product, dispatch);
 
+  // Providing actions because they have acces to dispatch here
   return (
     <StateContext.Provider
       value={{

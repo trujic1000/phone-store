@@ -1,8 +1,8 @@
 import { OPEN_MODAL, CLOSE_MODAL } from './types';
 
-export const useModalActions = (product, dispatch) => {
+export const useModalActions = (productState, dispatch) => {
   // Get item by id
-  const getItem = id => product.products.find(item => item.id === id);
+  const getItem = id => productState.products.find(item => item.id === id);
 
   const openModal = id => {
     const item = getItem(id);

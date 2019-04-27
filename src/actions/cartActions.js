@@ -7,31 +7,28 @@ import {
   CLEAR_CART
 } from './types';
 
-export const useCartActions = ({ product, cart }, dispatch) => {
+export const useCartActions = ({ productState, cartState }, dispatch) => {
   // Get item by id
-  const getItem = id => product.products.find(item => item.id === id);
+  const getItem = id => productState.products.find(item => item.id === id);
 
   const addItemToCart = id => {
-    let tempProducts = [...product.products];
+    let tempProducts = [...productState.products];
     const index = tempProducts.indexOf(getItem(id));
     const tempProduct = tempProducts[index];
     tempProduct.inCart = true;
     tempProduct.count = 1;
     const price = tempProduct.price;
     tempProduct.total = price;
-    const tempCart = [...cart.cart, tempProduct];
+    const tempCart = [...cartState.cart, tempProduct];
     dispatch({
       type: ADD_ITEM_TO_CART,
-      payload: {
-        products: tempProducts,
-        cart: tempCart
-      }
+      payload: tempCart
     });
   };
 
   const addTotals = () => {
     let subtotal = 0;
-    cart.cart.map(item => (subtotal += item.total));
+    cartState.cart.map(item => (subtotal += item.total));
     const tempTax = subtotal * 0.1;
     const tax = parseFloat(tempTax.toFixed(2));
     const total = subtotal + tax;
@@ -42,8 +39,8 @@ export const useCartActions = ({ product, cart }, dispatch) => {
   };
 
   const removeItemFromCart = id => {
-    let tempProducts = [...product.products];
-    let tempCart = [...cart.cart];
+    let tempProducts = [...productState.products];
+    let tempCart = [...cartState.cart];
     tempCart = tempCart.filter(item => item.id !== id);
     const index = tempProducts.indexOf(getItem(id));
     let removedProduct = tempProducts[index];
@@ -52,24 +49,25 @@ export const useCartActions = ({ product, cart }, dispatch) => {
     removedProduct.total = 0;
     dispatch({
       type: REMOVE_ITEM_FROM_CART,
-      payload: {
-        cart: tempCart,
-        products: tempProducts
-      }
+      payload: tempCart
     });
     addTotals();
-    // setCart(tempCart);
-    // setProducts(tempProducts);
   };
 
-  const clearCart = () => {
+  const clearCart = cart => {
     dispatch({ type: CLEAR_CART });
     addTotals();
+    // Cheating because it's referencing product state objects directly
+    cart.forEach(item => {
+      item.inCart = false;
+      item.count = 0;
+      item.total = 0;
+    });
   };
 
   // Incrementing/Decrementing values in the cart
   const inc = id => {
-    let tempCart = [...cart.cart];
+    let tempCart = [...cartState.cart];
     const selectedProduct = tempCart.find(item => item.id === id);
     const index = tempCart.indexOf(selectedProduct);
     const product = tempCart[index];
@@ -83,7 +81,7 @@ export const useCartActions = ({ product, cart }, dispatch) => {
   };
 
   const dec = id => {
-    let tempCart = [...cart.cart];
+    let tempCart = [...cartState.cart];
     const selectedProduct = tempCart.find(item => item.id === id);
     const index = tempCart.indexOf(selectedProduct);
     const product = tempCart[index];
@@ -96,7 +94,6 @@ export const useCartActions = ({ product, cart }, dispatch) => {
         type: DECREMENT_ITEM,
         payload: tempCart
       });
-      // setCart(tempCart);
       addTotals();
     }
   };

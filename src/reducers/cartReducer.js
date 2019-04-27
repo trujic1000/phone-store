@@ -3,7 +3,8 @@ import {
   DECREMENT_ITEM,
   ADD_TOTALS,
   ADD_ITEM_TO_CART,
-  REMOVE_ITEM_FROM_CART
+  REMOVE_ITEM_FROM_CART,
+  CLEAR_CART
 } from '../actions/types';
 
 export const cartReducer = (cartState, action) => {
@@ -23,17 +24,26 @@ export const cartReducer = (cartState, action) => {
         ...cartState,
         cart: action.payload
       };
-    case ADD_TOTALS:
+    case ADD_TOTALS: {
+      const { subtotal, tax, total } = action.payload;
       return {
         ...cartState,
-        cartSubtotal: action.payload.subtotal,
-        cartTax: action.payload.tax,
-        cartTotal: action.payload.total
+        cartSubtotal: subtotal,
+        cartTax: tax,
+        cartTotal: total
       };
+    }
     case REMOVE_ITEM_FROM_CART:
       return {
         ...cartState,
         cart: action.payload.cart
+      };
+    case CLEAR_CART:
+      return {
+        cart: [],
+        cartSubtotal: 0,
+        cartTax: 0,
+        cartTotal: 0
       };
     default:
       return cartState;

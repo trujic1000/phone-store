@@ -1,13 +1,20 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-
-import { StateContext } from '../../../context/StateContext';
 import { Button } from '../../common/Button';
 
+import {
+  useProductState,
+  useCartState,
+  useModalState
+} from '../../../global-state';
+
 export default function Details() {
-  const { productState, cartActions, modalActions } = useContext(StateContext);
+  // Accesing state and actions
+  const { productState } = useProductState();
   const { productDetails } = productState;
+  const { cartActions } = useCartState();
   const { addItemToCart } = cartActions;
+  const { modalActions } = useModalState();
   const { openModal } = modalActions;
 
   const { id, title, img, price, company, info, inCart } = productDetails;
@@ -51,7 +58,7 @@ export default function Details() {
               cart
               disabled={inCart}
               onClick={() => {
-                addItemToCart(productDetails);
+                addItemToCart(id);
                 openModal(id);
               }}
             >

@@ -2,19 +2,19 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 export default function CartTotal({ cartState, cartActions }) {
-  const { cartSubtotal, cartTax, cartTotal } = cartState;
+  const { cart, subtotal, tax, total } = cartState;
   const { addTotals, clearCart } = cartActions;
   // Updating Total value
   useEffect(() => {
     addTotals();
-  }, [cartSubtotal]);
+  }, [subtotal]);
   return (
     <div className="container">
       <div className="row">
         <div className="col-10 mt-2 ml-sm-5 ml-md-auto col-sm-8 text-capitalized text-right">
           <Link to="/">
             <button
-              onClick={() => clearCart()}
+              onClick={() => clearCart(cart)}
               className="btn btn-outline-danger text-uppercase mb-3 px-5"
               type="button"
             >
@@ -23,15 +23,15 @@ export default function CartTotal({ cartState, cartActions }) {
           </Link>
           <h5>
             <span className="text-title">Subtotal: </span>
-            <strong>${cartSubtotal}</strong>
+            <strong>${subtotal}</strong>
           </h5>
           <h5>
             <span className="text-title">Tax: </span>
-            <strong>${cartTax}</strong>
+            <strong>${tax}</strong>
           </h5>
           <h5>
             <span className="text-title">Total: </span>
-            <strong>${cartTotal}</strong>
+            <strong>${total}</strong>
           </h5>
         </div>
       </div>

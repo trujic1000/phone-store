@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
-import { StateContext } from '../../context/StateContext';
+import React from 'react';
+import { useCartState } from '../../global-state';
 
 export default function CartItem({ item }) {
-  const { cartActions } = useContext(StateContext);
+  const { cartActions } = useCartState();
   const { inc, dec, removeItemFromCart } = cartActions;
   const { id, title, img, price, total, count } = item;
   return (
